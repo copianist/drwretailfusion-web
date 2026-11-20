@@ -1,0 +1,38 @@
+{
+  "name": "drwretailfusion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DRW Retail Fusion LLC — curated clothing, accessories and one-on-one styling, with Stripe Payments, Tax and Invoicing.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start -p ${PORT:-3000}",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "catalog": "node scripts/generate-catalog.mjs",
+    "db:push": "prisma db push",
+    "postinstall": "prisma generate",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe"
+  },
+  "engines": {
+    "node": ">=18.18"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.3",
+    "bcryptjs": "3.0.3",
+    "jose": "6.2.18",
+    "next": "15.5.29",
+    "prisma": "6.19.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "server-only": "^0.0.1",
+    "stripe": "23.2.0",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.30",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
+    "typescript": "5.8.3"
+  }
+}
