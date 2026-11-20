@@ -39,6 +39,7 @@ img, svg { display: block; max-width: 100%; }
 .btn.light { background: var(--bg); color: var(--ink); border-color: var(--bg); }
 .btn.small { padding: 6px 12px; font-size: .85rem; }
 .btn.wide { width: 100%; }
+.btn.buynow { margin-top: 10px; }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
 .linklike { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-decoration: underline; cursor: pointer; }
 

@@ -51,40 +51,18 @@ export async function POST(req: Request) {
     const customer = await ensureStripeCustomer(user);
     const shipping = Number(process.env.SHIPPING_FLAT_CENTS || 0);
 
+    // Parameters configured in Stripe Checkout Studio (see STRIPE_INTEGRATION_TODO.md).
     const session = await stripe.checkout.sessions.create({
+      ui_mode: "hosted_page",
       mode: "payment",
-      customer,
-      customer_update: { address: "auto", shipping: "auto", name: "auto" },
       line_items: lineItems,
-      // Stripe Tax — only collects where you have an active registration (see README).
-      automatic_tax: { enabled: true },
-      billing_address_collection: "required",
-      shipping_address_collection: { allowed_countries: ["US", "CA"] },
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            display_name: shipping ? "Insured express delivery" : "Complimentary insured delivery",
-            type: "fixed_amount",
-            fixed_amount: { amount: shipping, currency: "usd" },
-            tax_behavior: "exclusive",
-            delivery_estimate: { minimum: { unit: "business_day", value: 2 }, maximum: { unit: "business_day", value: 5 } },
-          },
-        },
-      ],
-      // Stripe Invoicing — a paid invoice/receipt PDF is generated for every order.
-      invoice_creation: {
-        enabled: true,
-        invoice_data: {
-          description: "Thank you for shopping with DRW Retail Fusion.",
-          footer: "DRW Retail Fusion LLC · drwretailfusion.com",
-          metadata: { userId: user.id },
-        },
-      },
-      allow_promotion_codes: true,
-      phone_number_collection: { enabled: true },
-      client_reference_id: user.id,
-      metadata: { userId: user.id },
-      integration_identifier: integrationIdentifier("shop"),
+      billing_address_collection: "auto",
+      phone_number_collection: { enabled: false },
+      automatic_tax: { enabled: false },
+      allow_promotion_codes: false,
+      submit_type: "auto",
+      integration_identifier: "hosted_web_0001",
+      origin_context: "web",
       success_url: `${siteUrl()}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl()}/cart`,
     });
